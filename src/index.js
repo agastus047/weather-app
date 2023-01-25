@@ -9,7 +9,9 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q=London&APPID=fecc959481
     })
     .then(function(response) {
       console.log(response);
-      console.log(getData(response));
+      let weatherInfo = getData(response);
+      console.log(weatherInfo);
+      displayData(weatherInfo);
     })
     .catch(function(err) {
         console.log('error occured');
@@ -21,40 +23,48 @@ function displayData(data) {
   info.textContent = '';
   const city = document.createElement('div');
   city.classList.add('city');
+  city.textContent = `${data.name},${data.country}`;
   info.appendChild(city);
   const temp = document.createElement('div');
   temp.classList.add('temp');
+  temp.textContent = calcTemp(data.temperature);
   info.appendChild(temp);
   const image = document.createElement('img');
   image.setAttribute('alt','image');
   info.appendChild(image);
   const weather = document.createElement('div');
   weather.classList.add('weather');
+  weather.textContent= data.info;
   info.appendChild(weather);
   const humidity = document.createElement('div');
   humidity.classList.add('humidity');
+  humidity.textContent= `HUMIDITY: ${data.humidity}%`;
   info.appendChild(humidity);
 }
 
 function calcTemp(temp) {
-  let fahren = (((+temp)-273.15)*1.8)+32;
-  let cels = (+temp)-273.15;
+  let fahren = ((((+temp)-273.15)*1.8)+32).toFixed(2);
+  let cels = ((+temp)-273.15).toFixed(2);
   if(check.checked) {
-    return cels;
+    currentWeather = +cels;
+    return cels+'°C';
   }
   else {
-    return fahren;
+    currentWeather = +fahren;
+    return fahren+'°F';
   }
 }
 
 function convertTemp(temp) {
   if(check.checked) {
-    let cels = ((+temp)-32)/1.8;
-    return cels;
+    let cels = (((+temp)-32)/1.8).toFixed(2);
+    currentWeather = +cels;
+    return cels+'°C';
   }
   else {
-    let fahren = ((+temp)*1.8)+32;
-    return fahren;
+    let fahren = (((+temp)*1.8)+32).toFixed(2);
+    currentWeather = +fahren;
+    return fahren+'°F';
   }
 }
 //required data
@@ -76,12 +86,23 @@ function getData(data) {
     };
 }
 
+//i am creating a global object to access state at different times. 
+//currently used twice at calcTemp, twice at convertTemp and eventListener callback
+//will most probably swith to pubsub
+
+/* have only fixed the temp convert for initially loaded data.
+   should fix rendering of searched info and also its conversion
+*/
+let currentWeather;
+
 const btn = document.querySelector('button');
 const locInput = document.querySelector('#location');
 const check = document.querySelector('#convert');
 
 check.addEventListener('change', (e)=> {
-  
+  let tempDiv = document.querySelector('.info .temp');
+  let newTemp = convertTemp(currentWeather);
+  tempDiv.textContent= newTemp;
 });
 
 btn.addEventListener('click', renderPage);
