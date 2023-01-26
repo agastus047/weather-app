@@ -8,9 +8,7 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q=London&APPID=fecc959481
       }
     })
     .then(function(response) {
-      console.log(response);
       let weatherInfo = getData(response);
-      console.log(weatherInfo);
       displayData(weatherInfo);
     })
     .catch(function(err) {
@@ -25,13 +23,17 @@ function displayData(data) {
   city.classList.add('city');
   city.textContent = `${data.name},${data.country}`;
   info.appendChild(city);
+  const inforow = document.createElement('div');
+  inforow.classList.add('infoRow');
+  info.appendChild(inforow);
   const temp = document.createElement('div');
   temp.classList.add('temp');
   temp.textContent = calcTemp(data.temperature);
-  info.appendChild(temp);
+  inforow.appendChild(temp);
   const image = document.createElement('img');
   image.setAttribute('alt','image');
-  info.appendChild(image);
+  image.setAttribute('src',`http://openweathermap.org/img/wn/${data.icon}@2x.png`);
+  inforow.appendChild(image);
   const weather = document.createElement('div');
   weather.classList.add('weather');
   weather.textContent= data.info;
@@ -40,6 +42,10 @@ function displayData(data) {
   humidity.classList.add('humidity');
   humidity.textContent= `HUMIDITY: ${data.humidity}%`;
   info.appendChild(humidity);
+  const wind = document.createElement('div');
+  wind.classList.add('wind');
+  wind.textContent = `WIND SPEED: ${data.wind}m/s`;
+  info.appendChild(wind);
 }
 
 function calcTemp(temp) {
@@ -67,13 +73,6 @@ function convertTemp(temp) {
     return fahren+'°F';
   }
 }
-//required data
-//Name of city
-//Country code
-//icon
-//weather description
-//temp
-//humidity
 
 function getData(data) {
     return {
@@ -83,16 +82,13 @@ function getData(data) {
         info: data.weather[0].description.toUpperCase(),
         temperature: data.main.temp,
         humidity: data.main.humidity,
+        wind: data.wind.speed,
     };
 }
 
 //i am creating a global object to access state at different times. 
 //currently used twice at calcTemp, twice at convertTemp and eventListener callback
 //will most probably swith to pubsub
-
-/* have only fixed the temp convert for initially loaded data.
-   should fix rendering of searched info and also its conversion
-*/
 let currentWeather;
 
 const btn = document.querySelector('button');
@@ -111,13 +107,18 @@ async function renderPage() {
   let location = locInput.value;
   let locData;
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fecc9594811eafcca4593093c22fa171`;
-  let response = await fetch(url,{mode: 'cors'});
-  //its better to set try catch with fetch
+  let response;
+  try {
+    response = await fetch(url,{mode: 'cors'});
+  }
+  catch(error) {
+    console.error('fetch unsuccessful'+error);
+  }
   let responseData;
   if(response.ok) {
     responseData = await response.json();
     locData = getData(responseData);
-    console.log(locData);
+    displayData(locData);
   }
   else {
     console.error('No location found');
