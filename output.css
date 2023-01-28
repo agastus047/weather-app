@@ -701,7 +701,7 @@ video {
 }
 
 body {
-  background-image: url('../src/1773977.jpg');
+  background-image: url('./1773977.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
