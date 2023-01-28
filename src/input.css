@@ -14,7 +14,7 @@ body {
 
 .info {
     @apply w-8/12 sm:w-3/12 h-2/5 border border-slate-50 grid justify-items-center items-center
-    rounded-xl bg-slate-900/50 text-slate-50 shadow-md shadow-slate-100;
+    rounded-xl bg-slate-900/50 text-slate-50 shadow-md shadow-slate-100 mt-20 sm:mt-24;
     grid-template-rows: 1fr 2fr 1fr 1fr 1fr;
 }
 
@@ -32,4 +32,36 @@ body {
 
 .info .infoRow .temp {
     @apply text-3xl;
+}
+
+header {
+    @apply bg-slate-900 flex items-center h-24 max-[640px]:justify-around sm:px-7;
+}
+
+header img {
+    @apply h-16 max-[640px]:w-14 max-[640px]:h-14 sm:mr-auto;
+}
+
+header .search {
+    @apply max-[640px]:w-36;
+}
+
+header .search button {
+    @apply max-[640px]:w-14 max-[640px]:px-0;
+}
+
+header #headerTemp {
+    @apply text-xl;
+}
+
+header #togglebtn {
+    @apply sm:mr-12;
+}
+
+#content .error {
+    @apply w-full h-6 pr-3 sm:pr-7 text-right text-white font-black;
+}
+
+header>a {
+    @apply sm:mr-auto;
 }

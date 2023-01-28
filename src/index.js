@@ -91,9 +91,10 @@ function getData(data) {
 //will most probably swith to pubsub
 let currentWeather;
 
-const btn = document.querySelector('button');
-const locInput = document.querySelector('#location');
-const check = document.querySelector('#convert');
+const btn = document.querySelector('header .search button');
+const locInput = document.querySelector('header .search #default-search');
+const check = document.querySelector('header #convert');
+const errorDiv = document.querySelector('#content .error');
 
 check.addEventListener('change', (e)=> {
   let tempDiv = document.querySelector('.info .temp');
@@ -104,6 +105,7 @@ check.addEventListener('change', (e)=> {
 btn.addEventListener('click', renderPage);
 
 async function renderPage() {
+  errorDiv.textContent='';
   let location = locInput.value;
   let locData;
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=fecc9594811eafcca4593093c22fa171`;
@@ -121,6 +123,7 @@ async function renderPage() {
     displayData(locData);
   }
   else {
+    errorDiv.textContent='No matches found!';
     console.error('No location found');
   }
 }
