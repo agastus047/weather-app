@@ -794,7 +794,7 @@ header img{
 
 @media (max-width: 640px){
   header img{
-    height: 3.5rem;
+    height: 3rem;
     width: 3.5rem;
   }
 }
@@ -807,7 +807,7 @@ header img{
 
 @media (max-width: 640px){
   header .search{
-    width: 9rem;
+    width: 13rem;
   }
 
   header .search button{
@@ -820,6 +820,12 @@ header img{
 header #headerTemp{
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+@media (max-width: 640px){
+  header #headerTemp{
+    margin-right: 0.25rem;
+  }
 }
 
 @media (min-width: 640px){
@@ -842,7 +848,15 @@ header #headerTemp{
   #content .error{
     padding-right: 1.75rem;
   }
+}
 
+@media (max-width: 640px){
+  header>a{
+    margin-right: 0.25rem;
+  }
+}
+
+@media (min-width: 640px){
   header>a{
     margin-right: auto;
   }
