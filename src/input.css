@@ -39,11 +39,11 @@ header {
 }
 
 header img {
-    @apply h-16 max-[640px]:w-14 max-[640px]:h-14 sm:mr-auto;
+    @apply h-16 max-[640px]:w-14 max-[640px]:h-12 sm:mr-auto;
 }
 
 header .search {
-    @apply max-[640px]:w-36;
+    @apply max-[640px]:w-52;
 }
 
 header .search button {
@@ -51,7 +51,7 @@ header .search button {
 }
 
 header #headerTemp {
-    @apply text-xl;
+    @apply text-xl max-[640px]:mr-1;
 }
 
 header #togglebtn {
@@ -63,5 +63,5 @@ header #togglebtn {
 }
 
 header>a {
-    @apply sm:mr-auto;
+    @apply sm:mr-auto  max-[640px]:mr-1;
 }
